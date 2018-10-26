@@ -6,6 +6,7 @@
  *
  * Adds support for requiring a minimum and/or maximum number of characters for text type fields (e.g. Single Line Text,
  * Email) and array type fields (e.g. Name, Address).
+ * See $this->set_defaults() for allowed/required input values. Optionally add your own text domain to messages.
  *
  * @version 1.1.0
  * @author  TourKick LLC (Clifford Paulick)
@@ -69,13 +70,12 @@ class GW_Req_Char_Length {
 	 */
 	public function set_defaults() {
 		$this->defaults = [
-			'form_id'                => 0,
-			'field_id'               => '',
-			'min_chars'              => 0,
-			'max_chars'              => - 1, // negative one for unlimited
-			'validation_message'     => false,
-			'min_validation_message' => esc_html__( 'Please enter at least %d characters.' ),
-			'max_validation_message' => esc_html__( 'You may only enter %d characters.' ),
+			'form_id'                => 0, // integer
+			'field_id'               => '', // numeric or array of numerics
+			'min_chars'              => 0, // absint()
+			'max_chars'              => - 1, // absint() or -1 for unlimited
+			'min_validation_message' => esc_html__( 'Please enter at least %d characters.' ), // string, optionally add your own text domain
+			'max_validation_message' => esc_html__( 'You may only enter %d characters.' ), // string, optionally add your own text domain
 		];
 	}
 
