@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying Gravity Form
- * validation error to the user for invalid entries.
+ * Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying an informative
+ * Gravity Form validation error to the user for disallowed entries.
  *
- * Adds support for requiring a minimum and/or maximum number of characters for text (e.g. Single Line Text, Email) or
- * array (e.g. Name, Address) fields.
+ * Adds support for requiring a minimum and/or maximum number of characters for text type fields (e.g. Single Line Text,
+ * Email) and array type fields (e.g. Name, Address).
  *
  * @version 1.1.0
  * @author  TourKick LLC (Clifford Paulick)
@@ -24,9 +24,9 @@ class GW_Req_Char_Length {
 	 *   instead of the now-deprecated GFCommon::$version). Current GF version at time of this release is 2.3.6.
 	 * - Changed license from GPLv2+ to GPLv3+.
 	 * - Renamed class to better describe actual functionality, as it can be used for minimum and/or maximum.
-	 * - 'field_id' argument now supports array field types, such as Name and Address fields.
+	 * - 'field_id' argument now supports array type fields, such as Name and Address fields.
 	 *   (e.g. require Address Line 1 to be 5-30 characters long)
-	 * - 'field_id' argument now supports passing an array to apply same rules to multiple fields at once.
+	 * - 'field_id' argument now supports passing an array to apply the same rules and messaging to multiple fields at once.
 	 *   (e.g. same length and messaging to First Name and Last Name)
 	 * - Added multiple new examples to demonstrate available functionality.
 	 */
