@@ -14,8 +14,7 @@
  */
 class GW_Minimum_Characters {
 
-	public function __construct( $args = array() ) {
-
+	public function __construct( $args = [] ) {
 		// make sure we're running the required minimum version of Gravity Forms
 		if ( ! property_exists( 'GFCommon', 'version' ) || ! version_compare( GFCommon::$version, '1.7', '>=' ) ) {
 			return;
@@ -23,7 +22,7 @@ class GW_Minimum_Characters {
 
 		// set our default arguments, parse against the provided arguments, and store for use throughout the class
 		$this->_args = wp_parse_args(
-			$args, array(
+			$args, [
 			'form_id'                => false,
 			'field_id'               => false,
 			'min_chars'              => 0,
@@ -31,7 +30,7 @@ class GW_Minimum_Characters {
 			'validation_message'     => false,
 			'min_validation_message' => __( 'Please enter at least %s characters.' ),
 			'max_validation_message' => __( 'You may only enter %s characters.' )
-		)
+			]
 		);
 
 		extract( $this->_args );
@@ -41,12 +40,11 @@ class GW_Minimum_Characters {
 		}
 
 		// time for hooks
-		add_filter( "gform_field_validation_{$form_id}_{$field_id}", array( $this, 'validate_character_count' ), 10, 4 );
+		add_filter( "gform_field_validation_{$form_id}_{$field_id}", [ $this, 'validate_character_count' ], 10, 4 );
 
 	}
 
 	public function validate_character_count( $result, $value, $form, $field ) {
-
 		$char_count      = strlen( $value );
 		$is_min_reached  = $this->_args['min_chars'] !== false && $char_count >= $this->_args['min_chars'];
 		$is_max_exceeded = $this->_args['max_chars'] !== false && $char_count > $this->_args['max_chars'];
@@ -81,12 +79,12 @@ class GW_Minimum_Characters {
 # Configuration
 
 new GW_Minimum_Characters(
-	array(
+	[
 		'form_id'                => 524,
 		'field_id'               => 1,
 		'min_chars'              => 4,
 		'max_chars'              => 5,
 		'min_validation_message' => __( 'Oops! You need to enter at least %s characters.' ),
 		'max_validation_message' => __( 'Oops! You can only enter %s characters.' )
-	)
+	]
 );
