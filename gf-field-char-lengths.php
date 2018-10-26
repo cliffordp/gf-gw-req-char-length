@@ -1,23 +1,51 @@
 <?php
 
 /**
- * Gravity Wiz // Require Minimum Character Limit for Gravity Forms
+ * Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying Gravity Form
+ * validation error to the user for invalid entries.
  *
- * Adds support for requiring a minimum number of characters for text-based and
- * address Gravity Forms fields.
+ * Adds support for requiring a minimum and/or maximum number of characters for text (e.g. Single Line Text, Email) or
+ * array (e.g. Name, Address) fields.
  *
- * @version   1.1.0
- * @author    David Smith <david@gravitywiz.com>
- * @license   GPL version 3 or any later version
- * @link      https://gravitywiz.com/require-minimum-character-limit-gravity-forms/
- * @copyright 2013 Gravity Wiz
+ * @version 1.1.0
+ * @author  TourKick LLC (Clifford Paulick)
+ * @license GPL version 3 or any later version
+ * @link    https://github.com/cliffordp/gf-field-char-lengths This new/forked version by Clifford.
+ * @link    https://gist.github.com/spivurno/8220561 The Gravity Wiz snippet we started from.
+ * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
  */
-class GW_Minimum_Characters {
+class GW_Req_Char_Length {
+	/**
+	 * Changelog:
+	 *
+	 * Version 1.1.0: October 26, 2018
+	 * - Pretty much fully rewritten from https://gist.github.com/spivurno/8220561 (considered as Version 1.0.0 from May 30, 2014)
+	 * - Now requires Gravity Forms version 2.3+ (an arbitrarily-chosen recent version where GFForms::$version is used
+	 *   instead of the now-deprecated GFCommon::$version). Current GF version at time of this release is 2.3.6.
+	 * - Changed license from GPLv2+ to GPLv3+.
+	 * - Renamed class to better describe actual functionality, as it can be used for minimum and/or maximum.
+	 * - 'field_id' argument now supports array field types, such as Name and Address fields.
+	 *   (e.g. require Address Line 1 to be 5-30 characters long)
+	 * - 'field_id' argument now supports passing an array to apply same rules to multiple fields at once.
+	 *   (e.g. same length and messaging to First Name and Last Name)
+	 * - Added multiple new examples to demonstrate available functionality.
+	 */
 
+	/**
+	 * @var array
+	 */
 	private $defaults = [];
 
+	/**
+	 * @var array
+	 */
 	private $args = [];
 
+	/**
+	 * GW_Req_Char_Length constructor.
+	 *
+	 * @param array $args
+	 */
 	public function __construct( $args = [] ) {
 		// make sure we're running the required minimum version of Gravity Forms
 		if (
@@ -33,11 +61,11 @@ class GW_Minimum_Characters {
 		// parse passed and default values and store for use throughout the class
 		$this->args = wp_parse_args( $args, $this->defaults );
 
-		$this->add_validation_hook();
+		$this->add_validation_hooks();
 	}
 
 	/**
-	 * Set the default values, which must run within __construct() before wp_parse_args().
+	 * Set the default values. To be ran before wp_parse_args().
 	 */
 	public function set_defaults() {
 		$this->defaults = [
@@ -52,24 +80,7 @@ class GW_Minimum_Characters {
 	}
 
 	/**
-	 * Sanitize data and then only add the Gravity Forms validation hook if data is valid.
-	 */
-	public function add_validation_hook() {
-		// prevent errors from improper use
-		$this->sanitize_args();
-
-		// only add hook if data makes sense
-		if ( false === $this->args_are_valid() ) {
-			return;
-		}
-
-		foreach ( $this->args['field_id_ints'] as $field_id_int ) {
-			add_filter( "gform_field_validation_{$this->args['form_id']}_{$field_id_int}", [ $this, 'validate_character_count' ], 10, 4 );
-		}
-	}
-
-	/**
-	 * Sanitize the args, which runs after wp_parse_args().
+	 * Sanitize the args. To be ran after wp_parse_args().
 	 *
 	 * Sets $this->args['field_ids']
 	 */
@@ -103,47 +114,6 @@ class GW_Minimum_Characters {
 		$this->args['min_chars'] = absint( $this->args['min_chars'] );
 		// But Max could be -1 for unlimited
 		$this->args['max_chars'] = (int) $this->args['max_chars'];
-	}
-
-	/**
-	 * Get the integer value of the "before the period" or the "after the period" of a number.
-	 *
-	 * @param int|float|string $number
-	 * @param bool             $before
-	 *
-	 * @return bool|int
-	 */
-	private function get_int_before_after_period( $number, $before = true ) {
-		if ( ! is_numeric( $number ) ) {
-			return false;
-		}
-
-		$periods_count = substr_count( $number, '.' );
-
-		// Invalid if more than 1 period
-		if ( 1 < $periods_count ) {
-			return false;
-		}
-
-		$number = (string) $number;
-
-		// if an integer, add ".0" to the end
-		if ( 0 === $periods_count ) {
-			$number = $number . '.0';
-		}
-
-		// if starts with a period, add leading zero
-		if ( 0 === strpos( $number, '.' ) ) {
-			$number = '0' . $number;
-		}
-
-		$array = explode( '.', $number );
-
-		if ( $before ) {
-			return (int) $array[0];
-		} else {
-			return (int) $array[1];
-		}
 	}
 
 	/**
@@ -190,6 +160,64 @@ class GW_Minimum_Characters {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the integer value of the "before the period" or the "after the period" of a number.
+	 *
+	 * @param int|float|string $number
+	 * @param bool             $before
+	 *
+	 * @return bool|int
+	 */
+	private function get_int_before_after_period( $number, $before = true ) {
+		if ( ! is_numeric( $number ) ) {
+			return false;
+		}
+
+		$periods_count = substr_count( $number, '.' );
+
+		// Invalid if more than 1 period
+		if ( 1 < $periods_count ) {
+			return false;
+		}
+
+		$number = (string) $number;
+
+		// if an integer, add ".0" to the end
+		if ( 0 === $periods_count ) {
+			$number = $number . '.0';
+		}
+
+		// if starts with a period, add leading zero
+		if ( 0 === strpos( $number, '.' ) ) {
+			$number = '0' . $number;
+		}
+
+		$array = explode( '.', $number );
+
+		if ( $before ) {
+			return (int) $array[0];
+		} else {
+			return (int) $array[1];
+		}
+	}
+
+	/**
+	 * Sanitize data and then only add the Gravity Forms validation hook if data is valid.
+	 */
+	public function add_validation_hooks() {
+		// prevent errors from improper use
+		$this->sanitize_args();
+
+		// only add hook if data makes sense
+		if ( false === $this->args_are_valid() ) {
+			return;
+		}
+
+		foreach ( $this->args['field_id_ints'] as $field_id_int ) {
+			add_filter( "gform_field_validation_{$this->args['form_id']}_{$field_id_int}", [ $this, 'validate_character_count' ], 10, 4 );
+		}
 	}
 
 	/**
@@ -269,13 +297,12 @@ class GW_Minimum_Characters {
 
 		return $result;
 	}
-
-}
+} // end of class
 
 /**
  * Example Usage: Field 1 from Form 524 must be 4-5 characters long.
  */
-new GW_Minimum_Characters(
+new GW_Req_Char_Length(
 	[
 		'form_id'                => 524,
 		'field_id'               => 1,
@@ -287,12 +314,12 @@ new GW_Minimum_Characters(
 );
 
 /**
- * Example Usage: Field 7 from Form 12 is an Address field and therefore Field ID 7.1 is the Address Line 1, and it
+ * Example Usage: Field 7 from Form 322 is an Address field and therefore Field ID 7.1 is the Address Line 1, and it
  * must be 5-30 characters long.
  */
-new GW_Minimum_Characters(
+new GW_Req_Char_Length(
 	[
-		'form_id'                => 12,
+		'form_id'                => 322,
 		'field_id'               => 7.1,
 		'min_chars'              => 5,
 		'max_chars'              => 30,
@@ -302,13 +329,13 @@ new GW_Minimum_Characters(
 );
 
 /**
- * Example Usage: Field 1 from Form 6 is a Name field and therefore Field ID 1.3 is the First Name and 1.6 is the
+ * Example Usage: Field 1 from Form 746 is a Name field and therefore Field ID 1.3 is the First Name and 1.6 is the
  * Last Name and both have the same validation of 2-40 characters long. Use the default validation message text.
  */
-new GW_Minimum_Characters(
+new GW_Req_Char_Length(
 	[
-		'form_id'   => 6,
-		'field_id'  => [ 1.2, 1.3 ],
+		'form_id'   => 746,
+		'field_id'  => [ 1.3, 1.6 ],
 		'min_chars' => 2,
 		'max_chars' => 40,
 	]
