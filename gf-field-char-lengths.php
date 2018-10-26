@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
+if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 
 	/**
 	 * Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying an informative
@@ -18,7 +18,7 @@ if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
 	 * @link    https://gist.github.com/... See this for multiple code usage examples.
 	 * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
 	 */
-	class GW_Req_Char_Length {
+	class GF_GW_Req_Char_Length {
 		/**
 		 * Changelog:
 		 *
@@ -50,7 +50,7 @@ if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
 		private $args = [];
 
 		/**
-		 * GW_Req_Char_Length constructor.
+		 * GF_GW_Req_Char_Length constructor.
 		 *
 		 * @param array $args
 		 */

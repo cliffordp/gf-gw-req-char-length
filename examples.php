@@ -4,11 +4,11 @@
  * Usage examples that require https://github.com/cliffordp/gf-field-char-lengths
  */
 
-if ( class_exists( 'GW_Req_Char_Length' ) ) {
+if ( class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	/**
 	 * Example Usage: Field 1 from Form 524 must be 4-5 characters long.
 	 */
-	new GW_Req_Char_Length(
+	new GF_GW_Req_Char_Length(
 		[
 			'form_id'                => 524,
 			'field_id'               => 1,
@@ -23,7 +23,7 @@ if ( class_exists( 'GW_Req_Char_Length' ) ) {
 	 * Example Usage: Field 7 from Form 322 is an Address field and therefore Field ID 7.1 is the Address Line 1, and it
 	 * must be 5-30 characters long.
 	 */
-	new GW_Req_Char_Length(
+	new GF_GW_Req_Char_Length(
 		[
 			'form_id'                => 322,
 			'field_id'               => 7.1,
@@ -38,7 +38,7 @@ if ( class_exists( 'GW_Req_Char_Length' ) ) {
 	 * Example Usage: Field 1 from Form 746 is a Name field and therefore Field ID 1.3 is the First Name and 1.6 is the
 	 * Last Name and both have the same validation of 2-40 characters long. Use the default validation message text.
 	 */
-	new GW_Req_Char_Length(
+	new GF_GW_Req_Char_Length(
 		[
 			'form_id'   => 746,
 			'field_id'  => [ 1.3, 1.6 ],
