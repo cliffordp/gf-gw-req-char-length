@@ -15,7 +15,7 @@ if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
 	 * @author  TourKick LLC (Clifford Paulick)
 	 * @license GPL version 3 or any later version
 	 * @link    https://github.com/cliffordp/gf-field-char-lengths This new/forked version by Clifford.
-	 * @link    https://gist.github.com/spivurno/8220561 The Gravity Wiz snippet we started from.
+	 * @link    https://gist.github.com/... See this for multiple code usage examples.
 	 * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
 	 */
 	class GW_Req_Char_Length {
@@ -23,17 +23,20 @@ if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
 		 * Changelog:
 		 *
 		 * Version 1.1.0: October 26, 2018
-		 * - Pretty much fully rewritten from https://gist.github.com/spivurno/8220561 (considered as Version 1.0.0 from May 30, 2014)
-		 * - Now requires Gravity Forms version 2.3+ (an arbitrarily-chosen recent version where GFForms::$version is used
-		 *   instead of the now-deprecated GFCommon::$version). Current GF version at time of this release is 2.3.6.
+		 * - Pretty much fully rewritten from https://gist.github.com/spivurno/8220561 (considered as Version 1.0.0 from
+		 *   May 30, 2014)
+		 * - Now requires Gravity Forms version 2.3+ (an arbitrarily-chosen recent version where GFForms::$version is
+		 *   used instead of the now-deprecated GFCommon::$version). Current GF version at time of this release is 2.3.6.
 		 * - Now requires PHP 5.4+ (uses array short syntax).
 		 * - Changed license from GPLv2+ to GPLv3+.
 		 * - Renamed class to better describe actual functionality, as it can be used for minimum and/or maximum.
 		 * - 'field_id' argument now supports array type fields, such as Name and Address fields.
 		 *   (e.g. require Address Line 1 to be 5-30 characters long)
-		 * - 'field_id' argument now supports passing an array to apply the same rules and messaging to multiple fields at once.
-		 *   (e.g. same length and messaging to First Name and Last Name)
-		 * - Added multiple new examples to demonstrate available functionality.
+		 * - 'field_id' argument now supports passing an array to apply the same rules and messaging to multiple fields
+		 *   at once. (e.g. same length and messaging to First Name and Last Name)
+		 * - Added composer.php
+		 * - Added multiple new examples to demonstrate available functionality, but removed them from this file in case
+		 *   this class is added to your project via Composer.
 		 */
 
 		/**
@@ -303,45 +306,3 @@ if ( ! class_exists( 'GW_Req_Char_Length' ) ) {
 		}
 	} // end of class
 } // end of class_exists()
-
-/**
- * Example Usage: Field 1 from Form 524 must be 4-5 characters long.
- */
-new GW_Req_Char_Length(
-	[
-		'form_id'                => 524,
-		'field_id'               => 1,
-		'min_chars'              => 4,
-		'max_chars'              => 5,
-		'min_validation_message' => esc_html__( 'Oops! You need to enter at least %d characters.' ),
-		'max_validation_message' => esc_html__( 'Oops! You can only enter %d characters.' )
-	]
-);
-
-/**
- * Example Usage: Field 7 from Form 322 is an Address field and therefore Field ID 7.1 is the Address Line 1, and it
- * must be 5-30 characters long.
- */
-new GW_Req_Char_Length(
-	[
-		'form_id'                => 322,
-		'field_id'               => 7.1,
-		'min_chars'              => 5,
-		'max_chars'              => 30,
-		'min_validation_message' => esc_html__( 'Oops! Address Line 1 must be at least %d characters.' ),
-		'max_validation_message' => esc_html__( 'Oops! Address Line 1 must be %d or fewer characters.' )
-	]
-);
-
-/**
- * Example Usage: Field 1 from Form 746 is a Name field and therefore Field ID 1.3 is the First Name and 1.6 is the
- * Last Name and both have the same validation of 2-40 characters long. Use the default validation message text.
- */
-new GW_Req_Char_Length(
-	[
-		'form_id'   => 746,
-		'field_id'  => [ 1.3, 1.6 ],
-		'min_chars' => 2,
-		'max_chars' => 40,
-	]
-);
