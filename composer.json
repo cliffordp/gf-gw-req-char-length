@@ -1,0 +1,20 @@
+{
+	"name": "gf-field-char-lengths/gf-field-char-lengths",
+	"description": "Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying an informative Gravity Form validation error to the user for disallowed entries.",
+	"authors": [
+		{
+			"name": "David Smith",
+			"email": "david@gravitywiz.com",
+			"homepage": "https://gravitywiz.com/",
+			"role": "Developer"
+		},
+		{
+			"name": "TourKick LLC (Clifford Paulick)",
+			"email": "tko@tourkick.com",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/cliffordp/gf-field-char-lengths/issues"
+	}
+}
