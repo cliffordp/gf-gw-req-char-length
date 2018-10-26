@@ -14,8 +14,8 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	 * @version 1.1.0
 	 * @author  TourKick LLC (Clifford Paulick)
 	 * @license GPL version 3 or any later version
-	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This new/forked version by Clifford.
-	 * @link    https://gist.github.com/... See this for multiple code usage examples.
+	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This new/forked version of this class, by Clifford.
+	 * @link    https://gist.github.com/cliffordp/551eb4f67b8db8e19d3d59a0f2b7a6f9 See this for multiple code usage examples.
 	 * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
 	 */
 	class GF_GW_Req_Char_Length {
@@ -40,11 +40,15 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 		 */
 
 		/**
+		 * The array of default values, set at runtime.
+		 *
 		 * @var array
 		 */
 		private $defaults = [];
 
 		/**
+		 * The array of parsed values, set at runtime from passed args and defaults.
+		 *
 		 * @var array
 		 */
 		private $args = [];

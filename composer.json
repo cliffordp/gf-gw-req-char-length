@@ -1,6 +1,9 @@
 {
 	"name": "gf-gw-req-char-length/gf-gw-req-char-length",
 	"description": "Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying an informative Gravity Form validation error to the user for disallowed entries.",
+	"require": {
+		"php": "^5.4"
+	},
 	"authors": [
 		{
 			"name": "David Smith",
