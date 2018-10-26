@@ -14,7 +14,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	 * @version 1.1.0
 	 * @author  TourKick LLC (Clifford Paulick)
 	 * @license GPL version 3 or any later version
-	 * @link    https://github.com/cliffordp/gf-field-char-lengths This new/forked version by Clifford.
+	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This new/forked version by Clifford.
 	 * @link    https://gist.github.com/... See this for multiple code usage examples.
 	 * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
 	 */

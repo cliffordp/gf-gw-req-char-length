@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Usage examples that require https://github.com/cliffordp/gf-field-char-lengths
+ * Usage examples that require https://github.com/cliffordp/gf-gw-req-char-length
  */
 
 if ( class_exists( 'GF_GW_Req_Char_Length' ) ) {
