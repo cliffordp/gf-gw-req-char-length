@@ -2,7 +2,7 @@
 	"name": "gf-gw-req-char-length/gf-gw-req-char-length",
 	"type": "library",
 	"description": "Require a minimum and/or maximum character length for specific Gravity Forms fields, displaying an informative Gravity Form validation error to the user for disallowed entries.",
-	"keywords": ["gravity-forms"],
+	"keywords": ["wordpress", "gravityforms", "gravity-forms"],
 	"license": [ "GPL-3.0-or-later" ],
 	"require": {
 		"php": ">=5.4"
