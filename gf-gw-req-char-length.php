@@ -14,34 +14,10 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	 * @version 2.0.1
 	 * @author  TourKick LLC (Clifford Paulick)
 	 * @license GPL version 3 or any later version
-	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This new/forked version of this class, by Clifford.
-	 * @link    https://gist.github.com/cliffordp/551eb4f67b8db8e19d3d59a0f2b7a6f9 See this for multiple code usage examples.
-	 * @link    https://gravitywiz.com/require-minimum-character-limit-gravity-forms/ The accompanying Gravity Wiz article.
+	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This class' repository. See its README.md for
+	 *                                                             changelog, credits, links, and instructions.
 	 */
 	class GF_GW_Req_Char_Length {
-		/**
-		 * Changelog:
-		 *
-		 * Version 2.0.1: October 26, 2018
-		 * - Fix to avoid applying character length minimums to non-required fields that have no input.
-		 *
-		 * Version 2.0.0: October 26, 2018
-		 * - Pretty much fully rewritten from https://gist.github.com/spivurno/8220561 (considered as Version 1.0.0 from
-		 *   May 30, 2014)
-		 * - Now requires Gravity Forms version 2.3+ (an arbitrarily-chosen recent version where GFForms::$version is
-		 *   used instead of the now-deprecated GFCommon::$version). Current GF version at time of this release is 2.3.6.
-		 * - Now requires PHP 5.4+ (uses array short syntax).
-		 * - Changed license from GPLv2+ to GPLv3+.
-		 * - Renamed class to better describe actual functionality, as it can be used for minimum and/or maximum.
-		 * - 'field_id' argument now supports array type fields, such as Name and Address fields.
-		 *   (e.g. require Address Line 1 to be 5-30 characters long)
-		 * - 'field_id' argument now supports passing an array to apply the same rules and messaging to multiple fields
-		 *   at once. (e.g. same length and messaging to First Name and Last Name)
-		 * - Added composer.php
-		 * - Added multiple new examples to demonstrate available functionality, but removed them from this file in case
-		 *   this class is added to your project via Composer.
-		 */
-
 		/**
 		 * The array of default values, set at runtime.
 		 *
