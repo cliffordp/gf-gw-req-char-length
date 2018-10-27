@@ -247,6 +247,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 				$field_id = (string) $field_id;
 
 				$field_id_before_period = $this->get_int_before_after_period( $field_id );
+				$field_id_after_period  = $this->get_int_before_after_period( $field_id, false );
 
 				// if looking for fields 7.2, 7.3, and 8.2, and we're processing Field ID 8, then skip 7.2 and 7.3
 				if (
