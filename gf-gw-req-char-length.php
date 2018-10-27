@@ -11,7 +11,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	 * See $this->set_defaults() for allowed/required input values. Optionally add your own text domain to messages.
 	 * See Changelog for required Gravity Forms and PHP versions.
 	 *
-	 * @version 2.0.0
+	 * @version 2.0.1
 	 * @author  TourKick LLC (Clifford Paulick)
 	 * @license GPL version 3 or any later version
 	 * @link    https://github.com/cliffordp/gf-gw-req-char-length This new/forked version of this class, by Clifford.
@@ -21,6 +21,9 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 	class GF_GW_Req_Char_Length {
 		/**
 		 * Changelog:
+		 *
+		 * Version 2.0.1: October 26, 2018
+		 * - Fix to avoid applying character length minimums to non-required fields that have no input.
 		 *
 		 * Version 2.0.0: October 26, 2018
 		 * - Pretty much fully rewritten from https://gist.github.com/spivurno/8220561 (considered as Version 1.0.0 from
@@ -285,6 +288,14 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 					$is_min_reached = true;
 				} else {
 					$is_min_reached = false;
+				}
+
+				// if field is not required and value is empty, do not trigger validation failure
+				if (
+					empty( $field['isRequired'] )
+					&& empty( $char_count )
+				) {
+					return $result;
 				}
 
 				if ( - 1 === $this->args['max_chars'] ) {
