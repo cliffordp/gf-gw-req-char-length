@@ -261,7 +261,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 						$our_val = $value[$field_id];
 					} else {
 						// Field ID not found within the array, so bail
-						return $value;
+						return $result;
 					}
 				} else {
 					$our_val = $value;
@@ -274,7 +274,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 					&& ! is_float( $our_val )
 					&& ! is_int( $our_val )
 				) {
-					return $value;
+					return $result;
 				}
 
 				// do our custom validation
