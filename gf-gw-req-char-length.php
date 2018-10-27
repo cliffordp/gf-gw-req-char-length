@@ -243,11 +243,11 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 		 */
 		public function validate_character_count( $result, $value, $form, $field ) {
 			foreach ( $this->args['field_ids'] as $field_id ) {
-				if ( ! empty( $result['is_valid'] ) ) {
-					break;
-				}
+				// Convert to string so array key lookups work as expected (since PHP rounds float keys to integers)
+				$field_id = (string) $field_id;
 
 				$field_id_before_period = $this->get_int_before_after_period( $field_id );
+				$field_id_after_period  = $this->get_int_before_after_period( $field_id, false );
 
 				// if looking for fields 7.2, 7.3, and 8.2, and we're processing Field ID 8, then skip 7.2 and 7.3
 				if (
@@ -258,11 +258,11 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 				}
 
 				if ( is_array( $value ) ) {
-					if ( ! empty( $value[$field_id] ) ) {
+					if ( isset( $value[$field_id] ) ) {
 						$our_val = $value[$field_id];
 					} else {
 						// Field ID not found within the array, so bail
-						return $value;
+						return $result;
 					}
 				} else {
 					$our_val = $value;
@@ -275,7 +275,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 					&& ! is_float( $our_val )
 					&& ! is_int( $our_val )
 				) {
-					return $value;
+					return $result;
 				}
 
 				// do our custom validation
@@ -297,12 +297,30 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 					}
 				}
 
-				if ( ! empty( $is_min_reached ) ) {
+				if ( false === $is_min_reached ) {
 					$result['is_valid'] = false;
-					$result['message']  = sprintf( $this->args['min_validation_message'], $this->args['min_chars'] );
-				} else if ( $is_max_exceeded ) {
+					$message            = sprintf( $this->args['min_validation_message'], $this->args['min_chars'] );
+				} elseif ( true === $is_max_exceeded ) {
 					$result['is_valid'] = false;
-					$result['message']  = sprintf( $this->args['max_validation_message'], $this->args['max_chars'] );
+					$message            = sprintf( $this->args['max_validation_message'], $this->args['max_chars'] );
+				}
+
+				// If an array-type field, prepend with the input's label so user knows *which* input the validation error applies to
+				if (
+					! empty( $message )
+					&& ! empty( $field_id_after_period )
+				) {
+					$field_label = strip_tags( GFFormsModel::get_label( $field, $field_id, true ) );
+
+					$message = sprintf( '<em>%s:</em> %s', $field_label, $message );
+				}
+
+				if ( ! empty( $message ) ) {
+					if ( ! empty( $result['message'] ) ) {
+						$result['message'] .= '<br>' . $message;
+					} else {
+						$result['message'] = $message;
+					}
 				}
 			}
 
