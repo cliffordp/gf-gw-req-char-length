@@ -243,6 +243,8 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 		 */
 		public function validate_character_count( $result, $value, $form, $field ) {
 			foreach ( $this->args['field_ids'] as $field_id ) {
+				// Convert to string so array key lookups work as expected (since PHP rounds float keys to integers)
+				$field_id = (string) $field_id;
 
 				$field_id_before_period = $this->get_int_before_after_period( $field_id );
 
