@@ -257,7 +257,7 @@ if ( ! class_exists( 'GF_GW_Req_Char_Length' ) ) {
 				}
 
 				if ( is_array( $value ) ) {
-					if ( ! empty( $value[$field_id] ) ) {
+					if ( isset( $value[$field_id] ) ) {
 						$our_val = $value[$field_id];
 					} else {
 						// Field ID not found within the array, so bail
